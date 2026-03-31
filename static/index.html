@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>BodySync - Saúde Inteligente</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/app/style.css">
+    <!-- Removido o visual over-robótico, simplificando as tabelas e cores do CSS depois -->
+</head>
+<body>
+    <div class="app-container">
+        
+        <header class="glass-header">
+            <h1 id="app-title">BodySync<span class="highlight" style="font-size: 0.5em; vertical-align: super; margin-left:5px">App</span></h1>
+            <p id="app-subtitle">Apoio a Prescrições Científicas</p>
+        </header>
+
+        <main id="app-view">
+            <!-- Passo 0: Login -->
+            <section id="step-login" class="card active-step fade-in">
+                <div class="card-header">
+                    <h2>Acesso Corporativo</h2>
+                    <div class="badge" id="login-badge">Login</div>
+                </div>
+                
+                <p class="sub-text text-center mt-1rem mb-2rem">Acesse seu prontuário protegido para iniciar os cálculos da sua rotina.</p>
+
+                <form id="login-form">
+                    <div class="input-group hidden" id="group-nome">
+                        <label>Nome Completo (Paciente)</label>
+                        <input type="text" id="reg-nome" placeholder="Digite seu nome">
+                    </div>
+
+                    <div class="input-group">
+                        <label>E-mail de Acesso</label>
+                        <input type="email" id="login-email" placeholder="seu@email.com" required>
+                    </div>
+
+                    <div class="input-group">
+                        <label>Senha Segura</label>
+                        <input type="password" id="login-senha" placeholder="********" required>
+                    </div>
+
+                    <button type="submit" class="btn-primary glow-effect btn-large" id="login-btn">
+                        <span>Acessar Prontuário</span>
+                        <div class="loader hidden" id="login-loader"></div>
+                    </button>
+                    <button type="button" class="btn-secondary mt-1rem btn-large" id="toggle-reg-btn">Ainda não possui conta? Registre-se</button>
+                </form>
+            </section>
+
+            <!-- Passo 1: Dashboard (Área do Aluno Clássica) -->
+            <section id="step-dashboard" class="hidden slide-up">
+                <div class="card bg-transparent no-border mb-1rem p-0 dash-header">
+                    <div>
+                        <h2 class="greeting">Olá, <span id="dash-nome" class="highlight">Paciente</span>!</h2>
+                        <p class="subtitle mt-1rem">Bem-vindo(a) ao seu diário alimentar e físico.</p>
+                    </div>
+                    <button class="btn-icon" id="logout-btn" title="Sair da Conta">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
+                    </button>
+                </div>
+
+                <button type="button" class="btn-primary glow-effect btn-large mb-2rem ui-nova-avaliacao" id="nova-avaliacao-btn">
+                    <span>➕ Nova Avaliação Corporal Hoje</span>
+                </button>
+
+                <div class="card mb-1rem">
+                    <div class="card-header border-bottom pb-1rem">
+                        <h2>Histórico de Atendimentos</h2>
+                    </div>
+                    <div id="history-list" class="history-list mt-1rem">
+                        <div class="empty-state">Nenhum exame biométrico encontrado na base.</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Passo 2: A Calculadora Física Inclusiva (RF03) -->
+            <section id="step-form" class="card hidden slide-up">
+                <div class="card-header">
+                    <h2>Calculadora Biométrica</h2>
+                    <div class="badge">Aferição</div>
+                </div>
+                
+                <form id="metrics-form" class="mt-1rem">
+                    <input type="hidden" id="sessao-email">
+
+                    <p class="sub-text">Preencha sua anamnese completa para aumentar a precisão da dieta e do treino gerados.</p>
+
+                    <div class="input-group mt-1rem">
+                        <label>Objetivo Principal</label>
+                        <select id="objetivo" class="styled-select" required>
+                            <option value="Hipertrofia">Ganho de Massa Muscular (Hipertrofia)</option>
+                            <option value="Emagrecimento">Perda de Gordura Corporal</option>
+                            <option value="Definição">Manutenção Funcional</option>
+                        </select>
+                    </div>
+
+                    <div class="row-inputs">
+                        <div class="input-group">
+                            <label>Idade (anos)</label>
+                            <input type="number" id="idade" placeholder="Ex: 25" required>
+                        </div>
+                        <div class="input-group">
+                            <label>Peso (Kg)</label>
+                            <input type="number" id="peso" step="0.1" placeholder="Ex: 75.5" required>
+                        </div>
+                    </div>
+                    
+                    <div class="row-inputs">
+                        <div class="input-group">
+                            <label>Altura (m)</label>
+                            <input type="number" id="altura" step="0.01" placeholder="Ex: 1.75" required>
+                        </div>
+                        <div class="input-group">
+                            <label>Circunf. do Quadril (cm)</label>
+                            <input type="number" id="quadril" step="0.1" placeholder="Requisito do IAC" required>
+                        </div>
+                    </div>
+
+                    <div class="row-inputs">
+                        <div class="input-group">
+                            <label>Gênero Biológico</label>
+                            <select id="sexo" class="styled-select" required>
+                                <option value="Masculino">Masculino</option>
+                                <option value="Feminino">Feminino</option>
+                            </select>
+                        </div>
+                        <div class="input-group">
+                            <label>Nível de Atividade</label>
+                            <select id="atividade" class="styled-select" required>
+                                <option value="Sedentario">Sedentário</option>
+                                <option value="Moderado">Moderado</option>
+                                <option value="Atleta">Atleta (Intenso)</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="upload-area mt-2rem" id="drop-zone">
+                        <div class="upload-icon">📷</div>
+                        <p><strong>Foto de Contorno Opcional</strong></p>
+                        <span class="sub-text">Nosso modelo de Visão extrai seus déficits visuais e compensa no treino!</span>
+                        <input type="file" id="foto" accept="image/*" capture="environment" required>
+                    </div>
+
+                    <div class="preview-area hidden" id="preview-area">
+                        <img id="image-preview" src="#" alt="Preview do Corpo">
+                        <button type="button" id="remove-img" class="btn-secondary btn-small">Trocar Foto</button>
+                    </div>
+
+                    <div class="row-buttons mt-2rem">
+                        <button type="button" class="btn-secondary btn-large" id="cancel-eval-btn">Voltar</button>
+                        <button type="submit" class="btn-primary flex-grow glow-effect btn-large" id="submit-btn" style="margin-top:0">
+                            <span>Processar Calculadora</span>
+                            <div class="loader hidden" id="btn-loader"></div>
+                        </button>
+                    </div>
+                </form>
+            </section>
+
+            <!-- Passo 3: Central Integrada de Geração (IMC, IAC, Treino e Dieta - RF04 a RF08) -->
+            <section id="step-result" class="card hidden slide-up">
+                
+                <h2 style="margin-bottom: 1.5rem">Seus Exames e Classificações</h2>
+
+                <div class="row-inputs">
+                    <div class="result-box mt-0">
+                        <h3>Índice de Massa Corporal (IMC)</h3>
+                        <div class="bf-value" style="font-size:1.8rem"><span id="res-imc">--</span></div>
+                        <p class="sub-text" style="color:#FFA500" id="class-imc">--</p>
+                    </div>
+                    <div class="result-box mt-0">
+                        <h3>Ándice de Adiposidade (IAC)</h3>
+                        <div class="bf-value" style="font-size:1.8rem"><span id="res-iac">--</span>%</div>
+                        <p class="sub-text" style="color:#00A8FF" id="class-iac">--</p>
+                    </div>
+                </div>
+                
+                <p class="sub-text text-center mt-2rem mb-1rem" style="font-weight:bold; font-size:1.1rem; color:var(--text-color)">Geração de Protocolos</p>
+
+                <!-- Área Interativa de Dieta -->
+                <button type="button" class="btn-primary btn-large btn-green mb-1rem glow-effect" id="btn-gerar-dieta" style="width:100%; justify-content:center; align-items:center; display:flex;">
+                    <span>🥗 Gerar Dieta Nutricional</span>
+                    <div class="loader hidden" id="loader-dieta"></div>
+                </button>
+                <div class="prescription-box blur-backing hidden" id="box-dieta">
+                    <p class="prescription-text" id="res-dieta" style="white-space: pre-line;"></p>
+                </div>
+
+                <!-- Área Interativa de Treino -->
+                <button type="button" class="btn-primary btn-large mb-1rem glow-effect" id="btn-gerar-treino" style="width:100%; justify-content:center; align-items:center; display:flex; margin-top:1rem">
+                    <span>🏋️ Gerar Plano de Treinamento</span>
+                    <div class="loader hidden" id="loader-treino"></div>
+                </button>
+                <div class="prescription-box blur-backing hidden" id="box-treino">
+                    <p class="prescription-text" id="res-treino" style="white-space: pre-line;"></p>
+                </div>
+
+                <input type="hidden" id="sessao-consulta-id">
+                <button type="button" class="btn-secondary mt-2rem btn-large" style="width:100%" onclick="window.location.reload()">Arquivar e Retornar ao Início</button>
+            </section>
+        </main>
+    </div>
+
+    <script src="/app/script.js"></script>
+</body>
+</html>

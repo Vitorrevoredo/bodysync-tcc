@@ -1,0 +1,23 @@
+# Ambientes Virtuais e Cache
+.venv/
+venv/
+env/
+__pycache__/
+*.pyc
+
+# IDEs
+.vscode/
+.idea/
+
+# Arquivos de Teste de Upload
+imagens_avaliacoes/
+uploads/
+/tmp/
+
+# Variáveis Locais
+.env
+.vercel/
+
+# Banco de Dados (Mantendo apenas o V7 como base de dados inicial do projeto)
+*.db
+!sql_app_v7.db
